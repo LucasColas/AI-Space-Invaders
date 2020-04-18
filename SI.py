@@ -45,7 +45,7 @@ class Player(Ship):
         self.laser_img = Yellow_Laser
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
-        
+
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
     main_font = pygame.font.SysFont("comicsans", 50)
 
     player_vel = 10
-    ship = Ship(Width/2, Height-120)
+    player = Ship(Width/2, Height-120)
 
     clock = pygame.time.Clock()
 
@@ -72,8 +72,6 @@ def main():
 
         pygame.display.update()
 
-
-
     while run:
         clock.tick(FPS)
         redraw_window()
@@ -84,18 +82,14 @@ def main():
                 run = False
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_q] and ship.x - player_vel > 0: #left
-            ship.x -= player_vel
+        if keys[pygame.K_q] and player.x - player_vel > 0: #left
+            player.x -= player_vel
 
-        if keys[pygame.K_d] and ship.x + player_vel < Width:#right
-            ship.x += player_vel
+        if keys[pygame.K_d] and player.x + player_vel < Width:#right
+            player.x += player_vel
         if keys[pygame.K_z] and ship.y - player_vel > 0: #Up
-            ship.y -= player_vel
-        if keys[pygame.K_s] and ship.y + player_vel < Height: #Down
-            ship.y += player_vel
-
-
-
-
+            player.y -= player_vel
+        if keys[pygame.K_s] and player.y + player_vel < Height: #Down
+            player.y += player_vel
 
 main()
