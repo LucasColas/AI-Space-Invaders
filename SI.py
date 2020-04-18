@@ -36,6 +36,12 @@ class Ship:
     def draw(self, window):
         Win.blit(self.ship_img, (self.x, self.y))
 
+    def get_width(self):
+        return self.ship_img.get_width()
+
+    def get_height(self):
+        return self.ship_img.get_height()
+
 
 
 class Player(Ship):
@@ -56,7 +62,7 @@ def main():
     main_font = pygame.font.SysFont("comicsans", 50)
 
     player_vel = 10
-    player = PLayer(Width/2, Height-120)
+    player = Player(Width/2, Height-120)
 
     clock = pygame.time.Clock()
 
@@ -66,9 +72,10 @@ def main():
         lives_label = main_font.render(f"Lives : {lives}", 1, (255,255,255))
         level_label = main_font.render(f"Level : {level}", 1, (255, 255, 255))
 
+        player.draw(Win)
         Win.blit(lives_label, (10, 10))
         Win.blit(level_label, (Width-level_label.get_width() - 10, 10))
-        ship.draw(Win)
+
 
         pygame.display.update()
 
@@ -85,11 +92,11 @@ def main():
         if keys[pygame.K_q] and player.x - player_vel > 0: #left
             player.x -= player_vel
 
-        if keys[pygame.K_d] and player.x + player_vel < Width:#right
+        if keys[pygame.K_d] and player.x + player_vel + player.get_width() < Width:#right
             player.x += player_vel
-        if keys[pygame.K_z] and ship.y - player_vel > 0: #Up
+        if keys[pygame.K_z] and player.y - player_vel > 0: #Up
             player.y -= player_vel
-        if keys[pygame.K_s] and player.y + player_vel < Height: #Down
+        if keys[pygame.K_s] and player.y + player_vel + player.get_height() < Height: #Down
             player.y += player_vel
 
 main()
