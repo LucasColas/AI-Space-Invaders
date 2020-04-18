@@ -40,7 +40,7 @@ class Ship:
 
 class Player(Ship):
     def __init__(self, x, y, health=100):
-        super().__init__(x, y, health):
+        super().__init__(x, y, health)
         self.ship_img = Yellow_Space_Ship
         self.laser_img = Yellow_Laser
         self.mask = pygame.mask.from_surface(self.ship_img)
@@ -56,7 +56,7 @@ def main():
     main_font = pygame.font.SysFont("comicsans", 50)
 
     player_vel = 10
-    player = Ship(Width/2, Height-120)
+    player = PLayer(Width/2, Height-120)
 
     clock = pygame.time.Clock()
 
