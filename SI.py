@@ -52,7 +52,20 @@ class Player(Ship):
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
 
+class Enemy(Ship):
 
+    Color_Map = {
+                "red": (Red_Space_Ship, Red_Laser),
+                "green": (Green_Space_Ship, Green_Laser),
+                "blue": (Blue_Space_Ship, Blue_Laser)
+    }
+    def __init__(self,x,y,color, health=1000):
+        super().__init__(x, y, health)
+        self.ship_img, self.laser_img = self.Color_Map[color]
+        self.mask = pygame.mask.from_surface(self.ship_img)
+
+    def move(self, vel):
+        self.y += vel
 
 def main():
     run = True
@@ -62,7 +75,7 @@ def main():
     main_font = pygame.font.SysFont("comicsans", 50)
 
     player_vel = 10
-    player = Player(Width/2, Height-120)
+    player = Player(Width/2, Height/2)
 
     clock = pygame.time.Clock()
 
