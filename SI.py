@@ -45,6 +45,7 @@ class Player(Ship):
         self.laser_img = Yellow_Laser
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
+        
 
 
 def main():
