@@ -70,9 +70,15 @@ class Enemy(Ship):
 def main():
     run = True
     FPS = 120
-    level = 1
+    level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
+
+    enemies = []
+    wave_length = 5
+    enemy_vel = 3
+
+
 
     player_vel = 10
     player = Player(Width/2, Height/2)
@@ -85,16 +91,28 @@ def main():
         lives_label = main_font.render(f"Lives : {lives}", 1, (255,255,255))
         level_label = main_font.render(f"Level : {level}", 1, (255, 255, 255))
 
-        player.draw(Win)
         Win.blit(lives_label, (10, 10))
         Win.blit(level_label, (Width-level_label.get_width() - 10, 10))
+
+        for enemy in enemies:
+            enemy.draw(Win)
+
+        player.draw(Win)
 
 
         pygame.display.update()
 
     while run:
         clock.tick(FPS)
-        redraw_window()
+
+        if len(enemies) == 0:
+            level += 1
+            wave_length += 5
+
+            for i in range(wave_length):
+                enemy = Enemy(random.randrange(50, Width-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
+                enemies.append(enemy)
+
 
         for event in pygame.event.get():
 
@@ -111,5 +129,7 @@ def main():
             player.y -= player_vel
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() < Height: #Down
             player.y += player_vel
+
+        redraw_window()
 
 main()
