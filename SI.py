@@ -37,7 +37,7 @@ class Laser:
         self.y += vel
 
     def off_screen(self, height):
-        return not (self.y < height and self.y >=0)
+        return not (self.y < Height and self.y >=0)
 
     def collision(self, obj):
         return collide(obj, self)
@@ -45,7 +45,7 @@ class Laser:
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.x
-    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
+    return obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None
 
 
 class Ship:
@@ -72,6 +72,7 @@ class Ship:
             if laser.off_screen(Height):
                 self.lasers.remove(laser)
             elif laser.collision(obj):
+                print("Collision (from Ship)")
                 obj.health -= 10
                 self.lasers.remove(laser)
 
@@ -113,7 +114,9 @@ class Player(Ship):
             else:
                 for obj in objs:
                     if laser.collision(obj):
+                        print("Collision (from Player)")
                         objs.remove(obj)
+                        self.health -= 10
                         self.lasers.remove(laser)
 
 class Enemy(Ship):
@@ -149,7 +152,7 @@ def main():
 
 
     player_vel = 10
-    laser_vel = 4
+    laser_vel = 5
     player = Player(Width/2, Height/2)
 
     clock = pygame.time.Clock()
@@ -183,7 +186,7 @@ def main():
             lost_count += 1
 
         if lost:
-            if lost_count > FPS * 3:
+            if lost_count > FPS * 33:
                 run = False
             else:
                 continue
@@ -218,6 +221,9 @@ def main():
         for enemy in enemies[:]:
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
+
+            if random.randrange(0, 4*120) == 1:
+                enemy.shoot()
 
             if enemy.y - enemy.get_height() > Height:
                 lives -= 1
