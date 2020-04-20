@@ -22,7 +22,34 @@ Green_Laser = pygame.image.load(os.path.join("assets", "pixel_laser_green.png"))
 
 Bg = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (Width, Height))
 
+
+class Laser:
+    def __init__(self, x, y, img):
+        self.x = x
+        self.y = y
+        self.img = img
+        self.mask = pygame.mask.from_surface(self.img)
+
+    def draw(self, window):
+        window.blit(self.img, (self.x, self.y))
+
+    def move(self, vel):
+        self.y += vel
+
+    def off_screen(self, height):
+        return self.y < height and self.y >=0
+
+    def collision(self, obj):
+        return collide(obj, self)
+
+def collide(obj1, obj2):
+    offset_x = obj2.x - obj1.x
+    offset_y = obj2.y - obj1.x
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
+
+
 class Ship:
+    COOLDOWN = 60
     def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
@@ -35,6 +62,32 @@ class Ship:
 
     def draw(self, window):
         Win.blit(self.ship_img, (self.x, self.y))
+        for laser in self.lasers:
+            laser.draw(window)
+
+    def move_lasers(self, vel, obj):
+        self.cooldown()
+        for laser in self.lasers:
+            laser.move(vel)
+            if laser.off_screen(Height):
+                self.lasers.remove(laser)
+            elif laser.collision(obj):
+                obj.health -= 10
+
+
+
+    def cooldown(self):
+        if self.cool_down_counter >= self.COOLDOWN:
+            self.cool_down_counter = 0
+        elif self.cool_down_counter > 0:
+            self.cool_down_counter += 1
+
+    def shoot(self):
+        if self.cool_down_counter == 0:
+            laser = Laser(x, y, self.laser_img)
+            self.lasers.append(laser)
+            self.cool_down_counter = 1
+
 
     def get_width(self):
         return self.ship_img.get_width()
@@ -73,13 +126,14 @@ def main():
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
-    lost_font = pygame.font.SysFont("comicsans", 60)
+    lost_font = pygame.font.SysFont("comicsans", 70)
 
     enemies = []
     wave_length = 5
     enemy_vel = 3
 
     lost = False
+    lost_count = 0
 
 
 
@@ -106,16 +160,21 @@ def main():
             lost_label = lost_font.render("You Lost !", 1, (255, 255, 255))
             Win.blit(lost_label, (Width/2-lost_label.get_width()/2, 350))
 
-
-
-
         pygame.display.update()
 
     while run:
         clock.tick(FPS)
+        redraw_window()
 
         if lives <= 0 or player.health <= 0:
             lost = True
+            lost_count += 1
+
+        if lost:
+            if lost_count > FPS * 3:
+                run = False
+            else:
+                continue
 
         if len(enemies) == 0:
             level += 1
@@ -141,6 +200,8 @@ def main():
             player.y -= player_vel
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() < Height: #Down
             player.y += player_vel
+        if keys[pygame.K_SPACE]:
+            player.shoot()
 
         for enemy in enemies[:]:
             enemy.move(enemy_vel)
@@ -148,7 +209,5 @@ def main():
                 lives -= 1
                 enemies.remove(enemy)
 
-
-        redraw_window()
 
 main()
