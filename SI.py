@@ -45,7 +45,7 @@ class Laser:
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.x
-    return (obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None)
+    return obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None
 
 
 class Ship:
@@ -73,7 +73,6 @@ class Ship:
             if laser.off_screen(Height):
                 self.lasers.remove(laser)
             elif laser.collision(obj):
-                print("Collision (from Ship)")
                 obj.health -= 10
                 self.lasers.remove(laser)
 
@@ -115,15 +114,20 @@ class Player(Ship):
             else:
                 for obj in objs:
                     if laser.collision(obj):
-                        print("Collision (from Player)")
                         objs.remove(obj)
-                        self.health -= 10
                         if laser in self.lasers:
                             self.lasers.remove(laser)
 
-    def health(self, window):
+    def draw(self, window):
+        super().draw(window)
+        self.healthbar(window)
+
+    def healthbar(self, window):
         pygame.draw.rect(window, (255,0,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
-        pygame.draw.rect(window, (0,255,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width()*(1-((self.max_health - self.health)/self.max_health)), 10))
+        pygame.draw.rect(window, (0,255,0), (self.x, self.y + self.ship_img.get_height() + 10,
+        self.ship_img.get_width() * (self.health/self.max_health), 10))
+
+
 
 class Enemy(Ship):
 
@@ -198,6 +202,7 @@ def main():
         if lost:
             if lost_count > FPS * 33:
                 run = False
+                quit()
             else:
                 continue
 
@@ -215,6 +220,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_q] and player.x - player_vel > 0: #left
             player.x -= player_vel
@@ -223,7 +229,7 @@ def main():
             player.x += player_vel
         if keys[pygame.K_z] and player.y - player_vel > 0: #Up
             player.y -= player_vel
-        if keys[pygame.K_s] and player.y + player_vel + player.get_height() < Height: #Down
+        if keys[pygame.K_s] and player.y + player_vel + player.get_height() + 25 < Height: #Down
             player.y += player_vel
         if keys[pygame.K_SPACE]:
             player.shoot()
@@ -239,7 +245,7 @@ def main():
                 player.health -= 10
                 enemies.remove(enemy)
 
-            elif enemy.y - enemy.get_height() > Height:
+            elif enemy.y + enemy.get_height() > Height:
                 lives -= 1
                 enemies.remove(enemy)
 
