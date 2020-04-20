@@ -37,7 +37,7 @@ class Laser:
         self.y += vel
 
     def off_screen(self, height):
-        return self.y < height and self.y >=0
+        return not (self.y < height and self.y >=0)
 
     def collision(self, obj):
         return collide(obj, self)
@@ -75,8 +75,6 @@ class Ship:
                 obj.health -= 10
                 self.lasers.remove(laser)
 
-
-
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
             self.cool_down_counter = 0
@@ -85,7 +83,7 @@ class Ship:
 
     def shoot(self):
         if self.cool_down_counter == 0:
-            laser = Laser(x, y, self.laser_img)
+            laser = Laser(self.x, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
 
@@ -151,6 +149,7 @@ def main():
 
 
     player_vel = 10
+    laser_vel = 4
     player = Player(Width/2, Height/2)
 
     clock = pygame.time.Clock()
@@ -218,9 +217,13 @@ def main():
 
         for enemy in enemies[:]:
             enemy.move(enemy_vel)
+            enemy.move_lasers(laser_vel, player)
+
             if enemy.y - enemy.get_height() > Height:
                 lives -= 1
                 enemies.remove(enemy)
+
+        player.move_lasers(-laser_vel, enemies)
 
 
 main()
