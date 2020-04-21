@@ -184,7 +184,7 @@ def main():
         if gen == 0:
             gen = 1
 
-        gen_label = neat_font.render("Gen" + str(gen), 1, (255, 255, 255))
+        gen_label = neat_font.render("Gen : " + str(gen), 1, (255, 255, 255))
         WIN.blit(gen_label, (10, 50))
 
         WIN.blit(lives_label, (10, 10))
