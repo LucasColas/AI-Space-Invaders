@@ -222,9 +222,13 @@ def main(genomes, config):
         if len(enemies) == 0:
             level += 1
             wave_length += 1
+
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
+
+            for g in ge:
+                g.fitness += 10
 
         for x, player in enumerate(players):
             players[x].fitness += 0.1
