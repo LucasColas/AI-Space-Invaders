@@ -3,6 +3,7 @@ import os
 import time
 import random
 import neat
+import sys
 
 pygame.font.init()
 
@@ -50,7 +51,7 @@ class Laser:
 
 
 class Ship:
-    COOLDOWN = 10
+    COOLDOWN = 1
 
     def __init__(self, x, y, health=100):
         self.x = x
@@ -152,23 +153,34 @@ def collide(obj1, obj2):
     offset_y = obj2.y - obj1.y
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
-def main():
+def main(genomes, config):
     run = True
-    FPS = 60
+    FPS = 120
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
-    global gen
+
     enemies = []
     wave_length = 5
     enemy_vel = 4
 
     player_vel = 10
     laser_vel = 5
-
     player = Player(300, 630)
+
+    global gen
+    nets = []
+    ge = []
+    players = []
+
+    for _,g in genomes:
+        net = neat.nn.FeedForwardNetwork.create(g, config)
+        nets.append(g)
+
+
+
 
     clock = pygame.time.Clock()
 
@@ -217,7 +229,7 @@ def main():
 
         if len(enemies) == 0:
             level += 1
-            wave_length += 5
+            wave_length += 1
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
@@ -271,3 +283,22 @@ def main_menu():
 
 
 main_menu()
+
+
+def run(config_path):
+    max_gen = 150
+    config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet,
+    neat.DefaultStagnation, config_path)
+
+    p = neat.Population(config)
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+
+    winner = p.run(main, max_gen)
+
+
+if __name__ == "__main__":
+    local_dir = os.path.dirname(__file__)
+    config_path = os.path.join(local_dir, "NeatConfig.txt")
+    run(config_path)
