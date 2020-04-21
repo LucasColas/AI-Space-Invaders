@@ -168,16 +168,20 @@ def main(genomes, config):
 
     player_vel = 10
     laser_vel = 5
-    player = Player(300, 630)
+    #player = Player(300, 630)
 
     global gen
     nets = []
     ge = []
     players = []
 
-    for _,g in genomes:
+    for g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(g)
+        players.append(Player(WIDTH/2, HEIGHT/(5/4)))
+        g.fitness = 0
+        ge.append(g)
+
 
 
 
@@ -213,19 +217,9 @@ def main(genomes, config):
 
         pygame.display.update()
 
-    while run:
+    while run and len(players) > 0:
         clock.tick(FPS)
         redraw_window(gen)
-
-        if lives <= 0 or player.health <= 0:
-            lost = True
-            lost_count += 1
-
-        if lost:
-            if lost_count > FPS * 3:
-                run = False
-            else:
-                continue
 
         if len(enemies) == 0:
             level += 1
@@ -291,6 +285,8 @@ def run(config_path):
     neat.DefaultStagnation, config_path)
 
     p = neat.Population(config)
+
+    #Stats
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
