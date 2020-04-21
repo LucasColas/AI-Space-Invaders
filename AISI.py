@@ -228,6 +228,9 @@ def main(genomes, config):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
 
+        for x, player in enumerate(players):
+            players[x].fitness += 0.1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
