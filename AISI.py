@@ -184,8 +184,6 @@ def main(genomes, config):
 
 
 
-
-
     clock = pygame.time.Clock()
 
     lost = False
@@ -231,6 +229,8 @@ def main(genomes, config):
         for x, player in enumerate(players):
             players[x].fitness += 0.1
 
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
@@ -254,9 +254,11 @@ def main(genomes, config):
             if random.randrange(0, 2*60) == 1:
                 enemy.shoot()
 
-            if collide(enemy, player):
-                player.health -= 10
-                enemies.remove(enemy)
+            for player in players:
+                
+                if collide(enemy, player):
+                    player.health -= 10
+                    enemies.remove(enemy)
             elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
