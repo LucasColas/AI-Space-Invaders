@@ -255,13 +255,19 @@ def main(genomes, config):
                 enemy.shoot()
 
             for player in players:
-                
+
                 if collide(enemy, player):
                     player.health -= 10
                     enemies.remove(enemy)
-            elif enemy.y + enemy.get_height() > HEIGHT:
-                lives -= 1
-                enemies.remove(enemy)
+                    ge[players.index(player)].fitness -= 2
+                if enemy.y + enemy.get_height() > HEIGHT:
+                    lives -= 1
+                    enemies.remove(enemy)
+                    ge[players.index(player)].fitness -= 10
+                if player.health <= 0:
+                    ge[players.index(player)].fitness -= 20
+                    players.remove(index(player))
+
 
         player.move_lasers(-laser_vel, enemies)
 
