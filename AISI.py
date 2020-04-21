@@ -152,15 +152,15 @@ def collide(obj1, obj2):
     offset_y = obj2.y - obj1.y
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
-def main(genomes, config):
+def main():
     run = True
     FPS = 60
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
-    neat_font = pygame.font.SysFont("comicsans", 30)
-
+    neat_font = pygame.font.SysFont("comicsans", 40)
+    global gen
     enemies = []
     wave_length = 5
     enemy_vel = 4
@@ -175,7 +175,7 @@ def main(genomes, config):
     lost = False
     lost_count = 0
 
-    def redraw_window():
+    def redraw_window(gen):
         WIN.blit(BG, (0,0))
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
@@ -185,6 +185,7 @@ def main(genomes, config):
             gen = 1
 
         gen_label = neat_font.render("Gen" + str(gen), 1, (255, 255, 255))
+        WIN.blit(gen_label, (10, 50))
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
@@ -202,7 +203,7 @@ def main(genomes, config):
 
     while run:
         clock.tick(FPS)
-        redraw_window()
+        redraw_window(gen)
 
         if lives <= 0 or player.health <= 0:
             lost = True
