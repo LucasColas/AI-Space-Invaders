@@ -250,11 +250,13 @@ def main(genomes, config):
 
             #list : enemy.y, enemy.x, laser.x, laser.y
 
-            if outputs[0] > 0.5 and player.y + player_vel + player.get_width > 0:
+            if outputs[0] > 0.5 and player.y + player_vel + player.get_width < HEIGHT:
                 player.y += player_vel
 
             if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player.vel
+
+            if outputs[2] > 0.5 and player.x 
 
 
 
