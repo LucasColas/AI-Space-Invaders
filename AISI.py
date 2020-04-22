@@ -126,10 +126,7 @@ class Player(Ship):
         pygame.draw.rect(window, (255,0,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
         pygame.draw.rect(window, (0,255,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width() * (self.health/self.max_health), 10))
 
-    def get_distance(self, enemies):
-        for enemy in enemies:
-            if enemy.y > self.y:
-                return [enemy.x + enemy.y]
+
 
 
 
@@ -153,6 +150,12 @@ class Enemy(Ship):
             laser = Laser(self.x-20, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
+
+    def get_distance(self, enemies):
+        for enemy in enemies:
+            if enemy.y > self.y:
+                return [enemy.x, enemy.y]
+
 
 
 def collide(obj1, obj2):
@@ -244,12 +247,8 @@ def main(genomes, config):
         for x, player in enumerate(players):
             players[x].fitness += 0.1
 
-            inputs = (player.y, player.x,get_distance(enemies))
+            inputs = (get_distance(enemies))
             outputs = nets[x].activate(inputs)
-
-
-
-
 
 
         for event in pygame.event.get():
@@ -291,7 +290,7 @@ def main(genomes, config):
 
 
         player.move_lasers(-laser_vel, enemies)
-
+"""
 def main_menu():
     title_font = pygame.font.SysFont("comicsans", 70)
     run = True
@@ -309,6 +308,7 @@ def main_menu():
 
 
 main_menu()
+"""
 
 
 def run(config_path):
