@@ -55,7 +55,7 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, health=100):
+    def __init__(self, x, y, health=100, lasers):
         self.x = x
         self.y = y
         self.health = health
