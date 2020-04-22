@@ -129,7 +129,7 @@ class Player(Ship):
     def get_distance(self, enemies):
         for enemy in enemies:
             if enemy.y > self.y:
-                return enemy.y
+                return [enemy.x + enemy.y]
 
 
 
@@ -246,6 +246,8 @@ def main(genomes, config):
 
             inputs = (player.y, player.x,get_distance(enemies))
             outputs = nets[x].activate(inputs)
+
+
 
 
 
