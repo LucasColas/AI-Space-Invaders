@@ -50,6 +50,7 @@ class Laser:
         return collide(self, obj)
 
 
+
 class Ship:
     COOLDOWN = 1
 
@@ -118,6 +119,12 @@ class Player(Ship):
                         if laser in self.lasers:
                             self.lasers.remove(laser)
 
+    def get_distance(self, lasers, enemies):
+        for enemy in enemies:
+            for laser in lasers:
+                if enemy.y > self.y and laser.y > self.y:
+                    return [enemy.y, enemy.x, laser.x, laser.y]
+
     def draw(self, window):
         super().draw(window)
         self.healthbar(window)
@@ -125,9 +132,6 @@ class Player(Ship):
     def healthbar(self, window):
         pygame.draw.rect(window, (255,0,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
         pygame.draw.rect(window, (0,255,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width() * (self.health/self.max_health), 10))
-
-
-
 
 
 class Enemy(Ship):
@@ -150,12 +154,6 @@ class Enemy(Ship):
             laser = Laser(self.x-20, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
-
-    def get_distance(self, enemies):
-        for enemy in enemies:
-            if enemy.y > self.y:
-                return [enemy.x, enemy.y]
-
 
 
 def collide(obj1, obj2):
@@ -247,7 +245,7 @@ def main(genomes, config):
         for x, player in enumerate(players):
             players[x].fitness += 0.1
 
-            inputs = (get_distance(enemies))
+            inputs = (player.get_distance(enemies, Enemy.lasers))
             outputs = nets[x].activate(inputs)
 
 
