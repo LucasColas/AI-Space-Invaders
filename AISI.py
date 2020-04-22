@@ -29,6 +29,7 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
+Target = False
 
 class Laser:
     def __init__(self, x, y, img):
@@ -118,6 +119,7 @@ class Player(Ship):
                         objs.remove(obj)
                         if laser in self.lasers:
                             self.lasers.remove(laser)
+                            target = True
 
     def get_distance(self, enemies, lasers ):
         for enemy in enemies:
@@ -231,7 +233,7 @@ def main(genomes, config):
 
         if len(enemies) == 0:
             level += 1
-            wave_length += 1
+            wave_length 7
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
@@ -239,8 +241,6 @@ def main(genomes, config):
 
             for g in ge:
                 g.fitness += 10
-
-
 
         for x, player in enumerate(players):
             players[x].fitness += 0.1
@@ -266,25 +266,9 @@ def main(genomes, config):
                 player.shoot()
 
 
-
-
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
-
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_q] and player.x - player_vel > 0: # left
-            player.x -= player_vel
-        if keys[pygame.K_d] and player.x + player_vel + player.get_width() < WIDTH: # right
-            player.x += player_vel
-        if keys[pygame.K_z] and player.y - player_vel > 0: # up
-            player.y -= player_vel
-        if keys[pygame.K_s] and player.y + player_vel + player.get_height() + 15 < HEIGHT: # down
-            player.y += player_vel
-        if keys[pygame.K_SPACE]:
-            player.shoot()
 
         for enemy in enemies[:]:
             enemy.move(enemy_vel)
@@ -309,6 +293,11 @@ def main(genomes, config):
 
 
         player.move_lasers(-laser_vel, enemies)
+
+        if target:
+            increase_fitness = 10
+            for g in ge:
+                g.fitness += increase_fitness
 """
 def main_menu():
     title_font = pygame.font.SysFont("comicsans", 70)
