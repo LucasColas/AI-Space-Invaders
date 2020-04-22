@@ -98,6 +98,9 @@ class Ship:
     def get_height(self):
         return self.ship_img.get_height()
 
+    def lasers(self):
+        return self.lasers
+
 
 class Player(Ship):
     def __init__(self, x, y, health=100):
@@ -121,7 +124,7 @@ class Player(Ship):
                             self.lasers.remove(laser)
                             target = True
 
-    def get_distance(self, enemies, lasers ):
+    def get_distance(self, enemies, lasers):
         for enemy in enemies:
             for laser in lasers:
                 if enemy.y > self.y and laser.y > self.y:
@@ -181,6 +184,7 @@ def main(genomes, config):
     #player = Player(300, 630)
 
     global gen
+    gen += 1
     nets = []
     ge = []
     players = []
@@ -193,11 +197,7 @@ def main(genomes, config):
         ge.append(g)
 
 
-
     clock = pygame.time.Clock()
-
-    lost = False
-    lost_count = 0
 
     def redraw_window(gen):
         WIN.blit(BG, (0,0))
@@ -218,13 +218,7 @@ def main(genomes, config):
             enemy.draw(WIN)
 
         for player in players:
-            player.draw(WIn)
-
-        """
-        if lost:
-            lost_label = lost_font.render("You Lost!!", 1, (255,255,255))
-            WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
-        """
+            player.draw(WIN)
 
         pygame.display.update()
 
@@ -244,9 +238,9 @@ def main(genomes, config):
                 g.fitness += 10
 
         for x, player in enumerate(players):
-            players[x].fitness += 0.1
+            ge[x].fitness += 0.1
 
-            inputs = (player.get_distance(enemies, Enemy.lasers))
+            inputs = (player.get_distance(enemies, Ship.lasers))
             outputs = nets[x].activate(inputs)
 
             #list : enemy.y, enemy.x, laser.x, laser.y
