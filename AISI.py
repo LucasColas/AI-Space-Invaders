@@ -248,6 +248,18 @@ def main(genomes, config):
             inputs = (player.get_distance(enemies, Enemy.lasers))
             outputs = nets[x].activate(inputs)
 
+            #list : enemy.y, enemy.x, laser.x, laser.y
+
+            if outputs[0] > 0.5 and player.y + player_vel + player.get_width > 0:
+                player.y += player_vel
+
+            if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
+                player.x += player.vel
+
+
+
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
