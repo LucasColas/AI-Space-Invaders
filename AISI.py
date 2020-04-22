@@ -77,6 +77,7 @@ class Ship:
                 obj.health -= 10
                 self.lasers.remove(laser)
 
+
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
             self.cool_down_counter = 0
@@ -124,6 +125,12 @@ class Player(Ship):
     def healthbar(self, window):
         pygame.draw.rect(window, (255,0,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
         pygame.draw.rect(window, (0,255,0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width() * (self.health/self.max_health), 10))
+
+    def get_distance(self, enemies):
+        for enemy in enemies:
+            if enemy.y > self.y:
+                return enemy.y
+
 
 
 class Enemy(Ship):
@@ -209,9 +216,11 @@ def main(genomes, config):
 
         player.draw(WIN)
 
+        """
         if lost:
             lost_label = lost_font.render("You Lost!!", 1, (255,255,255))
             WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
+        """
 
         pygame.display.update()
 
@@ -230,8 +239,14 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
+
+
         for x, player in enumerate(players):
             players[x].fitness += 0.1
+
+            inputs = (player.y, player.x,get_distance(enemies))
+            outputs = nets[x].activate(inputs)
+
 
 
 
