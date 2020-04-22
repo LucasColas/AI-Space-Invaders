@@ -183,7 +183,7 @@ def main(genomes, config):
     ge = []
     players = []
 
-    for g in genomes:
+    for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(g)
         players.append(Player(WIDTH/2, HEIGHT/(5/4)))
