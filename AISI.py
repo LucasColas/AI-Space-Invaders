@@ -256,7 +256,14 @@ def main(genomes, config):
             if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player.vel
 
-            if outputs[2] > 0.5 and player.x 
+            if outputs[2] > 0.5 and player.x - player_vel > 0:
+                player.x -= player_vel
+
+            if outputs[3] > 0.5 and player.y - player_vel > 0:
+                player.y -= player_vel
+
+            if outputs[4] > 0.2:
+                player.shoot()
 
 
 
