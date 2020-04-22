@@ -245,7 +245,7 @@ def main(genomes, config):
         for x, player in enumerate(players):
             players[x].fitness += 0.1
 
-            inputs = (player.get_distance(enemies, Enemy.lasers))
+            inputs = (player.get_distance(Enemy.lasers, enemies))
             outputs = nets[x].activate(inputs)
 
 
