@@ -119,7 +119,7 @@ class Player(Ship):
                         if laser in self.lasers:
                             self.lasers.remove(laser)
 
-    def get_distance(self, lasers, enemies):
+    def get_distance(self, enemies, lasers ):
         for enemy in enemies:
             for laser in lasers:
                 if enemy.y > self.y and laser.y > self.y:
@@ -245,7 +245,7 @@ def main(genomes, config):
         for x, player in enumerate(players):
             players[x].fitness += 0.1
 
-            inputs = (player.get_distance(Enemy.lasers, enemies))
+            inputs = (player.get_distance(enemies, Enemy.lasers))
             outputs = nets[x].activate(inputs)
 
 
