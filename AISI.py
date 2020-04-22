@@ -217,7 +217,8 @@ def main(genomes, config):
         for enemy in enemies:
             enemy.draw(WIN)
 
-        player.draw(WIN)
+        for player in players:
+            player.draw(WIn)
 
         """
         if lost:
@@ -233,7 +234,7 @@ def main(genomes, config):
 
         if len(enemies) == 0:
             level += 1
-            wave_length 7
+            wave_length = 7
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
