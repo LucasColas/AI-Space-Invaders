@@ -29,7 +29,7 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
-Target = False
+target = False
 
 class Laser:
     def __init__(self, x, y, img):
@@ -55,13 +55,13 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, health=100, lasers):
+    def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
         self.health = health
+        self.lasers = []
         self.ship_img = None
         self.laser_img = None
-        self.lasers = []
         self.cool_down_counter = 0
 
     def draw(self, window):
@@ -189,6 +189,7 @@ def main(genomes, config):
     ge = []
     players = []
 
+    #Neural Network
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(g)
@@ -281,7 +282,8 @@ def main(genomes, config):
                 if enemy.y + enemy.get_height() > HEIGHT:
                     lives -= 1
                     enemies.remove(enemy)
-                    ge[players.index(player)].fitness -= 10
+                    for g in ge:
+                        g.fitness -= 10
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.remove(index(player))
