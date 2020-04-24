@@ -29,7 +29,10 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
+
+
 target = False
+lasers = []
 
 class Laser:
     def __init__(self, x, y, img):
@@ -55,11 +58,11 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, health=100):
+    def __init__(self, x, y, health=100, lasers):
         self.x = x
         self.y = y
         self.health = health
-        self.lasers = []
+        self.lasers = lasers
         self.ship_img = None
         self.laser_img = None
         self.cool_down_counter = 0
@@ -99,7 +102,7 @@ class Ship:
         return self.ship_img.get_height()
 
     def lasers(self):
-        return self.lasers
+        return [self.lasers]
 
 
 class Player(Ship):
@@ -239,9 +242,11 @@ def main(genomes, config):
                 g.fitness += 10
 
         for x, player in enumerate(players):
+            ship =
+
             ge[x].fitness += 0.1
 
-            inputs = (player.get_distance(enemies, Ship.lasers))
+            inputs = (player.get_distance(enemies, lasers))
             outputs = nets[x].activate(inputs)
 
             #list : enemy.y, enemy.x, laser.x, laser.y
