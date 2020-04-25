@@ -32,7 +32,7 @@ BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background
 
 
 target = False
-#lasers = []
+lasers = []
 
 class Laser:
     def __init__(self, x, y, img):
@@ -58,11 +58,11 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, health=100):
+    def __init__(self, x, y, lasers, health=100):
         self.x = x
         self.y = y
         self.health = health
-        self.lasers = []
+        self.lasers = lasers
         self.ship_img = None
         self.laser_img = None
         self.cool_down_counter = 0
