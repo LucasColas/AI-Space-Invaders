@@ -103,8 +103,8 @@ class Ship:
 
 
 class Player(Ship):
-    def __init__(self, x, y, health=100):
-        super().__init__(x, y, health)
+    def __init__(self, x, y, lasers, health=100):
+        super().__init__(x, y, lasers, health)
         self.ship_img = YELLOW_SPACE_SHIP
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img)
@@ -146,8 +146,8 @@ class Enemy(Ship):
                 "blue": (BLUE_SPACE_SHIP, BLUE_LASER)
                 }
 
-    def __init__(self, x, y, color, health=100):
-        super().__init__(x, y, health)
+    def __init__(self, x, y, color, lasers, health=100):
+        super().__init__(x, y, lasers, health)
         self.ship_img, self.laser_img = self.COLOR_MAP[color]
         self.mask = pygame.mask.from_surface(self.ship_img)
 
@@ -193,7 +193,7 @@ def main(genomes, config):
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(g)
-        players.append(Player(WIDTH/2, HEIGHT/(5/4)))
+        players.append(Player(WIDTH/2, HEIGHT/(5/4), lasers))
         g.fitness = 0
         ge.append(g)
 
@@ -232,7 +232,7 @@ def main(genomes, config):
             wave_length = 7
 
             for i in range(wave_length):
-                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
+                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
                 enemies.append(enemy)
 
             for g in ge:
