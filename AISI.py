@@ -58,7 +58,7 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, health=100, lasers):
+    def __init__(self, x, y, lasers, health=100):
         self.x = x
         self.y = y
         self.health = health
@@ -242,7 +242,6 @@ def main(genomes, config):
                 g.fitness += 10
 
         for x, player in enumerate(players):
-            ship =
 
             ge[x].fitness += 0.1
 
