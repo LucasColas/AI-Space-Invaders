@@ -245,7 +245,6 @@ def main(genomes, config):
             inputs = (player.get_distance(enemies, lasers))
             outputs = nets[x].activate(inputs)
 
-            #list : enemy.y, enemy.x, laser.x, laser.y
 
             if outputs[0] > 0.5 and player.y + player_vel + player.get_width < HEIGHT:
                 player.y += player_vel
