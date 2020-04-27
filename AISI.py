@@ -192,7 +192,7 @@ def main(genomes, config):
     #Neural Network
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
-        nets.append(g)
+        nets.append(net)
         players.append(Player(WIDTH/2, HEIGHT/(5/4), lasers))
         g.fitness = 0
         ge.append(g)
