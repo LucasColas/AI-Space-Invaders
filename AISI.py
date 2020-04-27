@@ -246,7 +246,7 @@ def main(genomes, config):
             outputs = nets[x].activate(inputs)
 
 
-            if outputs[0] > 0.5 and player.y + player_vel + player.get_width < HEIGHT:
+            if outputs[0] > 0.5 and player.y + player_vel + player.get_height() < HEIGHT:
                 player.y += player_vel
 
             if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
