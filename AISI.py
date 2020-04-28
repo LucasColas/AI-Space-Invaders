@@ -164,18 +164,18 @@ class Enemy(Ship):
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.y
-    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
+    return obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None
 
 def main(genomes, config):
     run = True
-    FPS = 120
+    FPS = 500
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
-    enemies = []
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     wave_length = 5
     enemy_vel = 4
 
@@ -242,6 +242,7 @@ def main(genomes, config):
 
             ge[x].fitness += 0.1
 
+
             inputs = (player.get_distance(enemies, lasers))
             outputs = nets[x].activate(inputs)
             print(outputs)
@@ -261,6 +262,7 @@ def main(genomes, config):
 
             if outputs[4] > 0.2:
                 player.shoot()
+
 
 
         for event in pygame.event.get():
