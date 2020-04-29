@@ -127,7 +127,7 @@ class Player(Ship):
     def get_distance(self, enemies, lasers):
         for enemy in enemies:
             for laser in lasers:
-                if enemy.y > self.y and laser.y > self.y:
+                if enemy.y > self.y or laser.y > self.y:
                     return [enemy.y, enemy.x, laser.x, laser.y]
 
     def draw(self, window):
@@ -224,6 +224,8 @@ def main(genomes, config):
         pygame.display.update()
 
     while run and len(players) > 0:
+        enemies_posx = []
+        enemies_posy = []
         clock.tick(FPS)
         redraw_window(gen)
 
@@ -237,13 +239,18 @@ def main(genomes, config):
 
             for g in ge:
                 g.fitness += 10
+        for enemy in enemies:
+            enemies_posx.append(enemy.x)
+            enemies_posx.append(enemy.y)
+
+
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
 
 
-            inputs = (player.get_distance(enemies, lasers))
+            inputs = (enemies_posx)
             outputs = nets[x].activate(inputs)
             print(outputs)
 
@@ -252,7 +259,7 @@ def main(genomes, config):
                 player.y += player_vel
 
             if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
-                player.x += player.vel
+                player.x += player_vel
 
             if outputs[2] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
@@ -269,7 +276,7 @@ def main(genomes, config):
             if event.type == pygame.QUIT:
                 quit()
 
-        for enemy in enemies[:]:
+        for enemy in enemies:
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
@@ -280,8 +287,9 @@ def main(genomes, config):
 
                 if collide(enemy, player):
                     player.health -= 10
-                    enemies.remove(enemy)
+                    enemies.remove(enemies.index(enemy))
                     ge[players.index(player)].fitness -= 2
+
                 if enemy.y + enemy.get_height() > HEIGHT:
                     lives -= 1
                     enemies.remove(enemy)
@@ -289,7 +297,7 @@ def main(genomes, config):
                         g.fitness -= 10
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
-                    players.remove(index(player))
+                    players.pop(players.index(player))
 
 
         player.move_lasers(-laser_vel, enemies)
