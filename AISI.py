@@ -124,11 +124,10 @@ class Player(Ship):
                             self.lasers.remove(laser)
                             target = True
 
-    def get_distance(self, enemies, lasers):
+    def get_distance(self, enemies):
         for enemy in enemies:
-            for laser in lasers:
-                if enemy.y > self.y or laser.y > self.y:
-                    return [enemy.y, enemy.x, laser.x, laser.y]
+            if enemy.y > self.y:
+                return [enemy.x, enemy.y]
 
     def draw(self, window):
         super().draw(window)
@@ -241,9 +240,12 @@ def main(genomes, config):
 
             for g in ge:
                 g.fitness += 10
+        """
         for enemy in enemies:
+
             enemies_posx.append(enemy.x)
             enemies_posx.append(enemy.y)
+        """
 
 
 
@@ -252,7 +254,7 @@ def main(genomes, config):
             ge[x].fitness += 0.1
 
 
-            inputs = (enemies_posx)
+            inputs = (Players.get_distance(enemies))
             outputs = nets[x].activate(inputs)
             print(outputs)
 
