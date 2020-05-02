@@ -225,8 +225,8 @@ def main(genomes, config):
         pygame.display.update()
 
     while run and len(players) > 0:
-        enemies_posx = []
-        enemies_posy = []
+        enemies_pos = []
+
         clock.tick(FPS)
         redraw_window(gen)
 
@@ -240,21 +240,19 @@ def main(genomes, config):
 
             for g in ge:
                 g.fitness += 10
-        """
-        for enemy in enemies:
 
-            enemies_posx.append(enemy.x)
-            enemies_posx.append(enemy.y)
-        """
-
-
+        for enemy1 in enemies:
+            for enemy2 in enemies:
+                if enemy1.y > enemy2.y and enemy1 != enemy2:
+                    enemies_pos.append(enemy2.x)
+                    enemies_pos.append(enemy2.y)
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
 
 
-            inputs = (player.get_distance(enemies))
+            inputs = ()
             outputs = nets[x].activate(inputs)
             print(outputs)
 
