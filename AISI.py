@@ -180,7 +180,7 @@ def main(genomes, config):
 
     player_vel = 10
     laser_vel = 5
-    #player = Player(300, 630)
+    player = Player(WIDTH/2, HEIGHT/(5/3), lasers)
 
     global gen
     gen += 1
@@ -192,7 +192,7 @@ def main(genomes, config):
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(net)
-        players.append(Player(WIDTH/2, HEIGHT/(5/4), lasers))
+        players.append(player)
         g.fitness = 0
         ge.append(g)
 
@@ -254,7 +254,7 @@ def main(genomes, config):
             ge[x].fitness += 0.1
 
 
-            inputs = (Players.get_distance(enemies))
+            inputs = (player.get_distance(enemies))
             outputs = nets[x].activate(inputs)
             print(outputs)
 
