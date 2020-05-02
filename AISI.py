@@ -205,12 +205,14 @@ def main(genomes, config):
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
         level_label = main_font.render(f"Level: {level}", 1, (255,255,255))
+        enemies_label = neat_font.render("Enemies : " + str(len(enemies)), 1, (255,255,255))
 
         if gen == 0:
             gen = 1
 
         gen_label = neat_font.render("Gen : " + str(gen), 1, (255, 255, 255))
         WIN.blit(gen_label, (10, 50))
+        WIN.blit(enemies_label, 10, 80)
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
