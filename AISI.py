@@ -212,7 +212,7 @@ def main(genomes, config):
 
         gen_label = neat_font.render("Gen : " + str(gen), 1, (255, 255, 255))
         WIN.blit(gen_label, (10, 50))
-        WIN.blit(enemies_label, 10, 80)
+        WIN.blit(enemies_label, (10, 80))
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
