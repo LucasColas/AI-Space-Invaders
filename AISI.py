@@ -316,8 +316,8 @@ def run(config_path):
     p = neat.Population(config)
 
     #Stats
-    p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
+    p.add_reporter(neat.StdOutReporter(True))
     p.add_reporter(stats)
 
     winner = p.run(main, max_gen)
