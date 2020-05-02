@@ -252,7 +252,7 @@ def main(genomes, config):
             ge[x].fitness += 0.1
 
 
-            inputs = ()
+            inputs = (enemies_pos)
             outputs = nets[x].activate(inputs)
             print(outputs)
 
