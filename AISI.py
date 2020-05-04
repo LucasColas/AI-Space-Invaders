@@ -243,8 +243,10 @@ def main(genomes, config):
                 g.fitness += 10
 
         for enemy1 in enemies:
-            enemies_pos.append(enemy1.x)
-            enemies_pos.append(enemy1.y)
+            for enemy2 in enemies:
+                if enemy1.y > enemy2.y and enemy1 != enemy2:    
+                    enemies_pos.append(enemy1.x)
+                    enemies_pos.append(enemy1.y)
 
 
         for x, player in enumerate(players):
@@ -252,7 +254,7 @@ def main(genomes, config):
             ge[x].fitness += 0.1
 
 
-            inputs = (enemies_pos)
+            inputs = ()
             outputs = nets[x].activate(inputs)
             print(outputs)
 
@@ -274,7 +276,6 @@ def main(genomes, config):
 
 
         player.move_lasers(-laser_vel, enemies)
-
 
 
         for event in pygame.event.get():
