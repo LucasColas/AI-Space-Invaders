@@ -273,6 +273,9 @@ def main(genomes, config):
                 player.shoot()
 
 
+        player.move_lasers(-laser_vel, enemies)
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -300,9 +303,6 @@ def main(genomes, config):
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
-
-
-        player.move_lasers(-laser_vel, enemies)
 
         if target:
             increase_fitness = 10
