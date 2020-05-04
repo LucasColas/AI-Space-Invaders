@@ -124,11 +124,6 @@ class Player(Ship):
                             self.lasers.remove(laser)
                             target = True
 
-    def get_distance(self, enemies):
-        for enemy in enemies:
-            if enemy.y > self.y:
-                return [enemy.x, enemy.y]
-
     def draw(self, window):
         super().draw(window)
         self.healthbar(window)
@@ -187,6 +182,8 @@ def main(genomes, config):
     nets = []
     ge = []
     players = []
+    enemies_posx = []
+    enemies_posy = []
 
     #Neural Network
     for _,g in genomes:
@@ -241,11 +238,24 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
+        if len(enemies) > 0:
+            for enemy in enemies:
+                enemies_posx.append(enemy.x)
+                enemies_posy.append(enemy.y)
+
+
+            enemies_posx.sort()
+            enemies_posy.sort()
+
+            enemies_inputs = [enemies_posx[0], enemies_posy[0]]
+
+
+
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
-            outputs = nets[x].activate((inputs))
+            outputs = nets[x].activate((enemies_inputs))
             print(outputs)
 
 
