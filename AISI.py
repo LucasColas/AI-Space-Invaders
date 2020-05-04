@@ -168,13 +168,13 @@ def collide(obj1, obj2):
 def main(genomes, config):
     run = True
     FPS = 500
-    level = 0
+    level = 1
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
-    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+    enemies = []
     wave_length = 5
     enemy_vel = 4
 
@@ -252,7 +252,7 @@ def main(genomes, config):
             ge[x].fitness += 0.1
 
 
-            inputs = (enemies_pos)
+            inputs = (enemies)
             outputs = nets[x].activate(inputs)
             print(outputs)
 
