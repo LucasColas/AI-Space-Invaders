@@ -295,7 +295,7 @@ def main(genomes, config):
                     enemies.remove(enemies.index(enemy))
                     ge[players.index(player)].fitness -= 2
 
-                if enemy.y + enemy.get_height() > HEIGHT:
+                elif enemy.y + enemy.get_height() > HEIGHT:
                     lives -= 1
                     enemies.remove(enemy)
                     for g in ge:
