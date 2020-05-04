@@ -250,8 +250,6 @@ def main(genomes, config):
             enemies_inputs = [enemies_posx[0], enemies_posy[0]]
 
 
-
-
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
