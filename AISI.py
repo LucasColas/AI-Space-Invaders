@@ -187,7 +187,6 @@ def main(genomes, config):
     nets = []
     ge = []
     players = []
-    enemies_pos = []
 
     #Neural Network
     for _,g in genomes:
@@ -242,20 +241,11 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
-        for enemy1 in enemies:
-            for enemy2 in enemies:
-                if enemy1.y > enemy2.y and enemy1 != enemy2:    
-                    enemies_pos.append(enemy1.x)
-                    enemies_pos.append(enemy1.y)
-
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
-
-
-            inputs = ()
-            outputs = nets[x].activate(inputs)
+            outputs = nets[x].activate((inputs))
             print(outputs)
 
 
