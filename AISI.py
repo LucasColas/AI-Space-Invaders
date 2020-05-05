@@ -289,18 +289,18 @@ def main(genomes, config):
             if random.randrange(0, 2*60) == 1:
                 enemy.shoot()
 
+            if enemy.y + enemy.get_height() > HEIGHT:
+                lives -= 1
+                enemies.remove(enemy)
+                for g in ge:
+                    g.fitness -= 10
+
             for player in players:
 
                 if collide(enemy, player):
                     player.health -= 10
                     enemies.remove(enemies.index(enemy))
                     ge[players.index(player)].fitness -= 2
-
-                elif enemy.y + enemy.get_height() > HEIGHT:
-                    lives -= 1
-                    enemies.remove(enemy)
-                    for g in ge:
-                        g.fitness -= 10
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
