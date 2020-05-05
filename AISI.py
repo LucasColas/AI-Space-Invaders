@@ -173,7 +173,7 @@ def main(genomes, config):
     wave_length = 5
     enemy_vel = 4
 
-    player_vel = 10
+    player_vel = 3
     laser_vel = 5
     player = Player(WIDTH/2, HEIGHT/(5/3), lasers)
 
@@ -196,12 +196,13 @@ def main(genomes, config):
 
     clock = pygame.time.Clock()
 
-    def redraw_window(gen):
+    def redraw_window(gen, players):
         WIN.blit(BG, (0,0))
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
         level_label = main_font.render(f"Level: {level}", 1, (255,255,255))
         enemies_label = neat_font.render("Enemies : " + str(len(enemies)), 1, (255,255,255))
+        alive_label = neat_font.render("Alive : " + str(len(players)), 1, (255, 255, 255))
 
         if gen == 0:
             gen = 1
@@ -212,6 +213,7 @@ def main(genomes, config):
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
+        WIN.blit(alive_label, (WIDTH - level_label.get_width() - 10, 50))
 
         for enemy in enemies:
             enemy.draw(WIN)
@@ -225,7 +227,7 @@ def main(genomes, config):
         enemies_pos = []
 
         clock.tick(FPS)
-        redraw_window(gen)
+        redraw_window(gen, players)
 
         if len(enemies) == 0:
             level += 1
@@ -273,7 +275,7 @@ def main(genomes, config):
                 player.shoot()
 
 
-        player.move_lasers(-laser_vel, enemies)
+        player.move_lasers(laser_vel, enemies)
 
 
         for event in pygame.event.get():
