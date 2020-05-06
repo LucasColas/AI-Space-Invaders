@@ -169,7 +169,7 @@ def main(genomes, config):
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
-    enemies = []
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     wave_length = 5
     enemy_vel = 4
 
@@ -230,7 +230,7 @@ def main(genomes, config):
         clock.tick(FPS)
         redraw_window(gen, players)
 
-        if len(enemies) == 0:
+        if len(enemies) <= 1:
             level += 1
             wave_length = 7
 
@@ -260,7 +260,8 @@ def main(genomes, config):
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
-            outputs = nets[x].activate()
+            inputs = enemies_inputs.append(player.x)
+            outputs = nets[x].activate(inputs)
             print(outputs)
 
 
