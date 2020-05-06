@@ -255,23 +255,17 @@ def main(genomes, config):
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
-            outputs = nets[x].activate((player.x, player.y))
+            outputs = nets[x].activate()
             print(outputs)
 
 
-            if outputs[0] > 0.5 and player.y + player_vel + player.get_height() < HEIGHT:
-                player.y += player_vel
-
-            if outputs[1] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
+            if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
 
-            if outputs[2] > 0.5 and player.x - player_vel > 0:
+            if outputs[1] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
-            if outputs[3] > 0.5 and player.y - player_vel > 0:
-                player.y -= player_vel
-
-            if outputs[4] > 0.2:
+            if outputs[2] > 0.2:
                 player.shoot()
 
 
