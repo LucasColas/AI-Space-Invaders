@@ -184,6 +184,7 @@ def main(genomes, config):
     players = []
     enemies_posx = []
     enemies_posy = []
+    enemies_lasers = []
 
     #Neural Network
     for _,g in genomes:
@@ -244,12 +245,16 @@ def main(genomes, config):
             for enemy in enemies:
                 enemies_posx.append(enemy.x)
                 enemies_posy.append(enemy.y)
-
+                for laser in enemy.lasers:
+                    enemies_lasers.append(laser.y)
 
             enemies_posx.sort()
             enemies_posy.sort()
+            enemies_lasers.sort(reverse=True)
 
-            enemies_inputs = [enemies_posx[0], enemies_posy[0]]
+
+
+            enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0]]
 
 
         for x, player in enumerate(players):
