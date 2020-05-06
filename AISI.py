@@ -169,7 +169,7 @@ def main(genomes, config):
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
-    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+
     wave_length = 5
     enemy_vel = 4
 
@@ -197,7 +197,7 @@ def main(genomes, config):
 
     clock = pygame.time.Clock()
 
-    def redraw_window(gen, players):
+    def redraw_window(gen, players,enemies):
         WIN.blit(BG, (0,0))
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
@@ -230,6 +230,9 @@ def main(genomes, config):
         clock.tick(FPS)
         redraw_window(gen, players)
 
+        enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+        print(len(enemies))
+
         if len(enemies) <= 1:
             level += 1
             wave_length = 7
@@ -249,12 +252,12 @@ def main(genomes, config):
                     enemies_lasers.append(laser.y)
 
             enemies_posx.sort()
+            print(enemies_posx)
             enemies_posy.sort()
+            print(enemies_posy)
             enemies_lasers.sort(reverse=True)
 
-
-
-            enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0]]
+        enemies_inputs = [enemies[0].x, enemies[0].y]
 
 
         for x, player in enumerate(players):
