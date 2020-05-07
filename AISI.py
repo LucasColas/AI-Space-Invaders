@@ -255,12 +255,14 @@ def main(genomes, config):
             #print(enemies_posy)
             enemies_lasers.sort(reverse=True)
 
-        enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0]]
+        enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0], player_vel]
 
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
+
+            enemies_inputs.append(player.x)
 
             outputs = nets[x].activate(enemies_inputs)
             print(outputs)
