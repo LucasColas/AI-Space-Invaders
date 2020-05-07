@@ -228,7 +228,6 @@ def main(genomes, config):
         enemies_pos = []
 
         clock.tick(FPS)
-        redraw_window(gen, players)
 
         enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
         print(len(enemies))
@@ -244,27 +243,26 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
-        if len(enemies) > 0:
-            for enemy in enemies:
-                enemies_posx.append(enemy.x)
-                enemies_posy.append(enemy.y)
-                for laser in enemy.lasers:
-                    enemies_lasers.append(laser.y)
+        for enemy in enemies:
+            enemies_posx.append(enemy.x)
+            enemies_posy.append(enemy.y)
+            for laser in enemy.lasers:
+                enemies_lasers.append(laser.y)
 
             enemies_posx.sort()
-            print(enemies_posx)
+            #print(enemies_posx)
             enemies_posy.sort()
-            print(enemies_posy)
+            #print(enemies_posy)
             enemies_lasers.sort(reverse=True)
 
-        enemies_inputs = [enemies[0].x, enemies[0].y]
+        enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0]]
 
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
-            inputs = enemies_inputs.append(player.x)
-            outputs = nets[x].activate(inputs)
+
+            outputs = nets[x].activate(enemies_inputs)
             print(outputs)
 
 
@@ -312,6 +310,7 @@ def main(genomes, config):
             increase_fitness = 10
             for g in ge:
                 g.fitness += increase_fitness
+        redraw_window(gen, players,enemies)
 
 
 def run(config_path):
