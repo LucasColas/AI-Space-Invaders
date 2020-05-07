@@ -155,6 +155,26 @@ class Enemy(Ship):
             self.cool_down_counter = 1
 
 
+def get(enemies, lasers):
+    enemies_posx = []
+    enemies_posy = []
+    enemies_lasers = []
+    for enemy in enemies:
+        enemies_posx.append(enemy.x)
+        enemies_posy.append(enemy.y)
+        for laser in enemy.lasers:
+            enemies_lasers.append(laser.y)
+
+        enemies_posx.sort()
+        #print(enemies_posx)
+        enemies_posy.sort()
+        #print(enemies_posy)
+        enemies_lasers.sort(reverse=True)
+
+    enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0], player_vel]
+
+    return enemies_inputs
+
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.y
@@ -182,9 +202,6 @@ def main(genomes, config):
     nets = []
     ge = []
     players = []
-    enemies_posx = []
-    enemies_posy = []
-    enemies_lasers = []
 
     #Neural Network
     for _,g in genomes:
@@ -243,28 +260,12 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
-        for enemy in enemies:
-            enemies_posx.append(enemy.x)
-            enemies_posy.append(enemy.y)
-            for laser in enemy.lasers:
-                enemies_lasers.append(laser.y)
-
-            enemies_posx.sort()
-            #print(enemies_posx)
-            enemies_posy.sort()
-            #print(enemies_posy)
-            enemies_lasers.sort(reverse=True)
-
-        enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0], player_vel]
-
 
         for x, player in enumerate(players):
 
             ge[x].fitness += 0.1
 
-            enemies_inputs.append(player.x)
-
-            outputs = nets[x].activate(enemies_inputs)
+            outputs = nets[x].activate(get(players,lasers))
             print(outputs)
 
 
