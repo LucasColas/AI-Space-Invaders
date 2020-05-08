@@ -161,8 +161,8 @@ def get(enemies, lasers, player_vel):
     enemies_lasersx = []
     enemies_lasersy = []
     for enemy in enemies:
-        enemies_posx.append(enemy.x)
-        enemies_posy.append(enemy.y)
+        enemies_posx.append(enemy)
+        #enemies_posy.append(enemy.y)
         for laser in enemy.lasers:
             enemies_lasersx.append(laser.x)
             enemies_lasersy.append(laser.y)
