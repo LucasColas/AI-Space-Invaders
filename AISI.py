@@ -292,6 +292,8 @@ def main(genomes, config):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
                 quit()
 
         for enemy in enemies:
