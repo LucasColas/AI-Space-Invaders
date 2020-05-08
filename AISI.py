@@ -310,7 +310,7 @@ def main(genomes, config):
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
 
-        for x in enumerate(enemies):
+        for x in rangelen((enemies)):
              if enemies[x].y + enemies[x].get_height() > HEIGHT:
                  lives -= 1
                  enemies.remove(enemies.index(x))
