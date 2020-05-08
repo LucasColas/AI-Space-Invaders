@@ -164,17 +164,19 @@ def get(enemies, lasers, player_vel):
             enemy_target = enemy.y
             enemies_inputs.append(enemy_target)
             enemies_inputs.append(enemy.x)
+            break
         for laser in enemy.lasers:
             if laser.y > laser_obs:
                 laser_obs = laser.y
                 enemies_inputs.append(laser_obs)
                 enemies_inputs.append(laser.x)
+                break
 
     if len(lasers) > 0:
         inputs = enemies_inputs
 
     else:
-        inputs = enemies_inputs 
+        inputs = enemies_inputs
         inputs.append(0)
         inputs.append(0)
 
