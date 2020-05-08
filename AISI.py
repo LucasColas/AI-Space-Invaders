@@ -155,23 +155,31 @@ class Enemy(Ship):
             self.cool_down_counter = 1
 
 
-def get(enemies, lasers):
+def get(enemies, lasers, player_vel):
     enemies_posx = []
     enemies_posy = []
-    enemies_lasers = []
+    enemies_lasersx = []
+    enemies_lasersy = []
     for enemy in enemies:
         enemies_posx.append(enemy.x)
         enemies_posy.append(enemy.y)
         for laser in enemy.lasers:
-            enemies_lasers.append(laser.y)
+            enemies_lasersx.append(laser.x)
+            enemies_lasersy.append(laser.y)
+
 
         enemies_posx.sort()
         #print(enemies_posx)
         enemies_posy.sort()
         #print(enemies_posy)
-        enemies_lasers.sort(reverse=True)
+        enemies_lasersy.sort(reverse=True)
 
-    enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasers[0], player_vel]
+    if len(lasers) > 0:
+        enemies_inputs = [enemies_posx[0], enemies_posy[0], enemies_lasersx[0],
+        enemies_lasersy[0], player_vel]
+
+    else:
+        enemies_inputs = [enemies_posx[0], enemies_posy[0], 0,0, player_vel]
 
     return enemies_inputs
 
@@ -265,8 +273,8 @@ def main(genomes, config):
 
             ge[x].fitness += 0.1
 
-            outputs = nets[x].activate(get(players,lasers))
-            print(outputs)
+            outputs = nets[x].activate(get(enemies,lasers, player_vel))
+            #print(outputs)
 
 
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
