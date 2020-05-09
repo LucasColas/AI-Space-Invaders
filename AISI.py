@@ -157,7 +157,7 @@ class Enemy(Ship):
 
 def get(enemies, lasers, player_vel):
     enemy_target = 0
-    enemies_inputs = []
+    enemies_inputs = [player_vel]
     laser_obs = 0
     for enemy in enemies:
         if enemy.y > enemy_target:
@@ -279,10 +279,10 @@ def main(genomes, config):
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
 
-            if outputs[1] > 0.5 and player.x - player_vel > 0:
+            if outputs[1] < 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
-            if outputs[2] > 0.2:
+            if outputs[2] > 0:
                 player.shoot()
 
 
