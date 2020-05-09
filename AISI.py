@@ -254,11 +254,13 @@ def main(genomes, config):
         clock.tick(FPS)
 
         enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+        print(len(enemies), Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+        print(len(enemies), Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
         print(len(enemies))
 
-        if len(enemies) <= 1:
+        if len(enemies) <= 2:
             level += 1
-            wave_length = 7
+            wave_length = 3
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
@@ -311,7 +313,7 @@ def main(genomes, config):
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
 
-        for x in rangelen((enemies)):
+        for x in range(len(enemies)):
              if enemies[x].y + enemies[x].get_height() > HEIGHT:
                  lives -= 1
                  enemies.remove(enemies.index(x))
