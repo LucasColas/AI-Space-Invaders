@@ -245,9 +245,6 @@ def main(genomes, config):
         clock.tick(FPS)
 
         enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
-        print(len(enemies), Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
-        print(len(enemies), Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
-        print(len(enemies))
 
         if len(enemies) <= 2:
             level += 1
