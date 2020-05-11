@@ -248,6 +248,11 @@ def main(genomes, config):
         redraw_window(gen, players,enemies)
 
         if len(enemies) <= 1:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
+                    quit()
             level += 1
             wave_length = 3
 
@@ -277,12 +282,6 @@ def main(genomes, config):
                 player.shoot()
 
         player.move_lasers(-laser_vel, enemies)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-                quit()
 
         for enemy in enemies:
             enemy.move(enemy_vel)
