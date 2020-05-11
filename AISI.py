@@ -188,6 +188,7 @@ def main(genomes, config):
     neat_font = pygame.font.SysFont("comicsans", 40)
 
 
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     wave_length = 5
     enemy_vel = 4
 
@@ -240,18 +241,16 @@ def main(genomes, config):
         pygame.display.update()
 
     while run and len(players) > 0:
-        enemies_pos = []
         clock.tick(FPS)
         redraw_window(gen, players,enemies)
-
-        enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
 
         if len(enemies) <= 1:
             level += 1
             wave_length = 3
 
             for i in range(wave_length):
-                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
+                enemy = Enemy(random.randrange(50, WIDTH-100),
+                random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
                 enemies.append(enemy)
 
             for g in ge:
