@@ -275,8 +275,8 @@ def main(genomes, config):
 
             if outputs[2] > 0:
                 player.shoot()
-                player.move_lasers(-laser_vel, enemies)
 
+        player.move_lasers(-laser_vel, enemies)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
