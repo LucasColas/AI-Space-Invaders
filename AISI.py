@@ -246,7 +246,7 @@ def main(genomes, config):
 
         enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
 
-        if len(enemies) <= 2:
+        if len(enemies) <= 1:
             level += 1
             wave_length = 3
 
@@ -265,7 +265,6 @@ def main(genomes, config):
             outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
 
-
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
 
@@ -276,7 +275,7 @@ def main(genomes, config):
                 player.shoot()
 
 
-        player.move_lasers(laser_vel, enemies)
+        player.move_lasers(-laser_vel, enemies)
 
 
         for event in pygame.event.get():
