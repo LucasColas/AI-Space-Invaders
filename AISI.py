@@ -241,8 +241,8 @@ def main(genomes, config):
 
     while run and len(players) > 0:
         enemies_pos = []
-
         clock.tick(FPS)
+        redraw_window(gen, players,enemies)
 
         enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
 
@@ -273,9 +273,6 @@ def main(genomes, config):
 
             if outputs[2] > 0:
                 player.shoot()
-
-
-        player.move_lasers(-laser_vel, enemies)
 
 
         for event in pygame.event.get():
@@ -311,7 +308,9 @@ def main(genomes, config):
             increase_fitness = 10
             for g in ge:
                 g.fitness += increase_fitness
-        redraw_window(gen, players,enemies)
+
+        player.move_lasers(-laser_vel, enemies)
+
 
 
 def run(config_path):
