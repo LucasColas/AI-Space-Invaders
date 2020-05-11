@@ -156,31 +156,22 @@ class Enemy(Ship):
 
 
 def get(enemies, lasers, player_vel):
-    enemy_target = 0
-    enemies_inputs = [player_vel]
-    laser_obs = 0
+    enemies_pos = []
+    enemies_laser = []
     for enemy in enemies:
-        if enemy.y > enemy_target:
-            enemy_target = enemy.y
-            enemies_inputs.append(enemy_target)
-            enemies_inputs.append(enemy.x)
-            break
+        enemies_pos.append((enemy.x, enemy.y))
         for laser in enemy.lasers:
-            if laser.y > laser_obs:
-                laser_obs = laser.y
-                enemies_inputs.append(laser_obs)
-                enemies_inputs.append(laser.x)
-                break
+            enemies_laser.append((laser.x, laser.y))
+
+        enemies_pos.sort(key = lambda enemie_pos: enemie_pos[1], reverse = True)
+        enemies_laser.sort(key = lambda enemie_laser: enemie_laser[1], reverse = True)
 
     if len(lasers) > 0:
-        inputs = enemies_inputs
-
+        enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], enemies_laser[0][0], enemies_laser[0][1], player_vel]
     else:
-        inputs = enemies_inputs
-        inputs.append(0)
-        inputs.append(0)
+        enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], 0, 0, player_vel]
 
-    return inputs
+    return enemies_inputs
 
 def collide(obj1, obj2):
     offset_x = obj2.x - obj1.x
