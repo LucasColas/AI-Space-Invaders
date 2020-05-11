@@ -179,6 +179,9 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None
 
 def main(genomes, config):
+    global gen
+
+
     run = True
     FPS = 60
     level = 1
@@ -196,7 +199,7 @@ def main(genomes, config):
     laser_vel = 5
     player = Player(WIDTH/2, HEIGHT/(5/3), lasers)
 
-    global gen
+
     gen += 1
     nets = []
     ge = []
@@ -259,7 +262,7 @@ def main(genomes, config):
 
         for x, player in enumerate(players):
 
-            ge[x].fitness += 0.1
+            ge[x].fitness += 0.01
 
             outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
@@ -309,7 +312,6 @@ def main(genomes, config):
                 g.fitness += increase_fitness
 
         player.move_lasers(-laser_vel, enemies)
-
 
 
 def run(config_path):
