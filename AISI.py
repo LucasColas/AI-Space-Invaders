@@ -275,6 +275,7 @@ def main(genomes, config):
 
             if outputs[2] > 0:
                 player.shoot()
+                player.move_lasers(-laser_vel, enemies)
 
 
         for event in pygame.event.get():
@@ -311,7 +312,7 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += increase_fitness
 
-        player.move_lasers(-laser_vel, enemies)
+
 
 
 def run(config_path):
