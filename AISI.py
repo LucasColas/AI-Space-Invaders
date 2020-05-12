@@ -250,8 +250,8 @@ def main(genomes, config):
         if len(enemies) <= 1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
                     pygame.quit()
+                    run = False
                     quit()
             level += 1
             wave_length = 3
