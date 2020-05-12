@@ -234,7 +234,7 @@ def main(genomes, config):
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
-        WIN.blit(alive_label, (WIDTH - level_label.get_width() - 10, 50))
+        WIN.blit(alive_label, (WIDTH - alive_label.get_width() - 10, 50))
 
         for enemy in enemies:
             enemy.draw(WIN)
