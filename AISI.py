@@ -295,7 +295,7 @@ def main(genomes, config):
 
                 if collide(enemy, player):
                     player.health -= 10
-                    enemies.remove(enemies.index(enemy))
+                    enemies.remove(enemy)
                     ge[players.index(player)].fitness -= 2
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
