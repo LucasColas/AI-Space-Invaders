@@ -184,7 +184,7 @@ def main(genomes, config):
 
 
     run = True
-    FPS = 200
+    FPS = 450
     level = 1
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
