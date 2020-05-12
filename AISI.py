@@ -166,7 +166,7 @@ def get(enemies, player_vel):
         enemies_pos.sort(key = lambda enemie_pos: enemie_pos[1], reverse = True)
         enemies_laser.sort(key = lambda enemie_laser: enemie_laser[1], reverse = True)
 
-    if len(enemie_laser) > 0:
+    if len(enemies_laser) > 0:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], enemies_laser[0][0], enemies_laser[0][1], player_vel]
     else:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], 0, 0, player_vel]
@@ -191,7 +191,7 @@ def main(genomes, config):
     neat_font = pygame.font.SysFont("comicsans", 40)
 
 
-    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
     wave_length = 5
     enemy_vel = 4
 
