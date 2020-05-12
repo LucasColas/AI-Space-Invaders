@@ -197,7 +197,7 @@ def main(genomes, config):
 
     player_vel = 3
     laser_vel = 5
-    player = Player(WIDTH/2, HEIGHT/(5/3), lasers)
+    player = Player(WIDTH/2, HEIGHT/(5/3))
 
 
     gen += 1
@@ -258,7 +258,7 @@ def main(genomes, config):
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100),
-                random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
+                random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
 
             for g in ge:
