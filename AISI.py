@@ -191,8 +191,6 @@ def main(genomes, config):
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
-
-    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
     wave_length = 5
     enemy_vel = 4
 
@@ -244,6 +242,7 @@ def main(genomes, config):
 
         pygame.display.update()
 
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
     while run and len(players) > 0:
         clock.tick(FPS)
         redraw_window(gen, players,enemies)
@@ -277,7 +276,7 @@ def main(genomes, config):
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
 
-            if outputs[1] < 0.5 and player.x - player_vel > 0:
+            if outputs[1] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
             if outputs[2] > 0:
@@ -289,7 +288,7 @@ def main(genomes, config):
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
-            if random.randrange(0, 2*60) == 1:
+            if random.randrange(0, 2*20) == 1:
                 enemy.shoot()
             for player in players:
 
