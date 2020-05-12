@@ -247,12 +247,13 @@ def main(genomes, config):
         clock.tick(FPS)
         redraw_window(gen, players,enemies)
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+                quit()
+
         if len(enemies) <= 1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    run = False
-                    quit()
             level += 1
             wave_length = 3
 
@@ -310,6 +311,7 @@ def main(genomes, config):
             increase_fitness = 10
             for g in ge:
                 g.fitness += increase_fitness
+                target = False
 
 
 
