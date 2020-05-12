@@ -180,6 +180,7 @@ def collide(obj1, obj2):
 
 def main(genomes, config):
     global gen
+    global target
 
 
     run = True
@@ -253,7 +254,7 @@ def main(genomes, config):
                 run = False
                 quit()
 
-        if len(enemies) <= 1:
+        if len(enemies) == 1:
             level += 1
             wave_length = 3
 
