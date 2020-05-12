@@ -32,7 +32,7 @@ BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background
 
 
 target = False
-lasers = []
+#lasers = []
 
 class Laser:
     def __init__(self, x, y, img):
@@ -58,11 +58,11 @@ class Laser:
 class Ship:
     COOLDOWN = 1
 
-    def __init__(self, x, y, lasers, health=100):
+    def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
         self.health = health
-        self.lasers = lasers
+        self.lasers = []
         self.ship_img = None
         self.laser_img = None
         self.cool_down_counter = 0
@@ -103,8 +103,8 @@ class Ship:
 
 
 class Player(Ship):
-    def __init__(self, x, y, lasers, health=100):
-        super().__init__(x, y, lasers, health)
+    def __init__(self, x, y, health=100):
+        super().__init__(x, y, health)
         self.ship_img = YELLOW_SPACE_SHIP
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img)
@@ -140,8 +140,8 @@ class Enemy(Ship):
                 "blue": (BLUE_SPACE_SHIP, BLUE_LASER)
                 }
 
-    def __init__(self, x, y, color, lasers, health=100):
-        super().__init__(x, y, lasers, health)
+    def __init__(self, x, y, color, health=100):
+        super().__init__(x, y, health)
         self.ship_img, self.laser_img = self.COLOR_MAP[color]
         self.mask = pygame.mask.from_surface(self.ship_img)
 
@@ -155,7 +155,7 @@ class Enemy(Ship):
             self.cool_down_counter = 1
 
 
-def get(enemies, lasers, player_vel):
+def get(enemies, player_vel):
     enemies_pos = []
     enemies_laser = []
     for enemy in enemies:
@@ -166,7 +166,7 @@ def get(enemies, lasers, player_vel):
         enemies_pos.sort(key = lambda enemie_pos: enemie_pos[1], reverse = True)
         enemies_laser.sort(key = lambda enemie_laser: enemie_laser[1], reverse = True)
 
-    if len(lasers) > 0:
+    if len(enemie_laser) > 0:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], enemies_laser[0][0], enemies_laser[0][1], player_vel]
     else:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], 0, 0, player_vel]
@@ -269,7 +269,7 @@ def main(genomes, config):
 
             ge[x].fitness += 0.01
 
-            outputs = nets[x].activate(get(enemies,lasers, player_vel))
+            outputs = nets[x].activate(get(enemies, player_vel))
             #print(outputs)
 
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
