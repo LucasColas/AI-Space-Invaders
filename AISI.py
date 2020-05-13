@@ -266,7 +266,6 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += 10
 
-
         for x, player in enumerate(players):
 
             outputs = nets[x].activate(get(enemies, lasers, player_vel))
