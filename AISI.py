@@ -72,6 +72,8 @@ class Ship:
         for laser in self.lasers:
             laser.draw(window)
 
+
+
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
             self.cool_down_counter = 0
@@ -102,7 +104,7 @@ class Player(Ship):
     def move_lasers(self, vel, objs):
         self.cooldown()
         for laser in self.lasers:
-            laser.move(- vel)
+            laser.move(vel)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             else:
@@ -134,6 +136,16 @@ class Enemy(Ship):
         self.ship_img, self.laser_img = self.COLOR_MAP[color]
         self.mask = pygame.mask.from_surface(self.ship_img)
 
+    def move_lasers(self, vel, obj):
+        self.cooldown()
+        for laser in self.lasers:
+            laser.move(vel)
+            if laser.off_screen(HEIGHT):
+                self.lasers.remove(laser)
+            elif laser.collision(obj):
+                obj.health -= 10
+                self.lasers.remove(laser)
+
     def move(self, vel):
         self.y += vel
 
@@ -144,7 +156,7 @@ class Enemy(Ship):
             self.cool_down_counter = 1
 
 
-def get(enemies, player_vel):
+def get(enemies, lasers, player_vel):
     enemies_pos = []
     enemies_laser = []
     for enemy in enemies:
@@ -155,7 +167,7 @@ def get(enemies, player_vel):
         enemies_pos.sort(key = lambda enemie_pos: enemie_pos[1], reverse = True)
         enemies_laser.sort(key = lambda enemie_laser: enemie_laser[1], reverse = True)
 
-    if len(enemies_laser) > 0:
+    if len(lasers) > 0:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], enemies_laser[0][0], enemies_laser[0][1], player_vel]
     else:
         enemies_inputs = [enemies_pos[0][0], enemies_pos[0][1], 0, 0, player_vel]
