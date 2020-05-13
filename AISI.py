@@ -271,7 +271,7 @@ def main(genomes, config):
 
             ge[x].fitness += 0.01
 
-            outputs = nets[x].activate(get(enemies, player_vel))
+            outputs = nets[x].activate(get(enemies, lasers, player_vel))
             #print(outputs)
 
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
@@ -283,7 +283,7 @@ def main(genomes, config):
             if outputs[2] > 0:
                 player.shoot()
 
-        player.move_lasers(-laser_vel, enemies)
+        player.move_lasers(laser_vel, enemies)
 
         for enemy in enemies:
             enemy.move(enemy_vel)
