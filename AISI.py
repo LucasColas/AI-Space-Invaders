@@ -254,9 +254,9 @@ def main(genomes, config):
                 run = False
                 quit()
 
-        if len(enemies) == 1:
+        if len(enemies) <= 1:
             level += 1
-            wave_length = 3
+            wave_length = 5
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100),
@@ -269,8 +269,6 @@ def main(genomes, config):
 
         for x, player in enumerate(players):
 
-            ge[x].fitness += 0.01
-
             outputs = nets[x].activate(get(enemies, lasers, player_vel))
             #print(outputs)
 
@@ -280,7 +278,7 @@ def main(genomes, config):
             if outputs[1] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
-            if outputs[2] > 0:
+            if outputs[2] > 0.5:
                 player.shoot()
 
         player.move_lasers(-laser_vel, enemies)
@@ -300,6 +298,8 @@ def main(genomes, config):
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
+                    for g in ge:
+                        g.fitness -= 2
 
         for x, enemy in enumerate(enemies):
              if enemy.y > HEIGHT:
