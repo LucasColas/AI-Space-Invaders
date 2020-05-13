@@ -32,7 +32,7 @@ BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background
 
 
 target = False
-#lasers = []
+lasers = []
 
 class Laser:
     def __init__(self, x, y, img):
@@ -52,7 +52,6 @@ class Laser:
 
     def collision(self, obj):
         return collide(self, obj)
-
 
 
 class Ship:
