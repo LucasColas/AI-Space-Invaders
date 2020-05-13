@@ -289,20 +289,20 @@ def main(genomes, config):
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
-            if random.randrange(0, 2*20) == 1:
+            if random.randrange(0, 2*60) == 1:
                 enemy.shoot()
             for player in players:
-
-                if collide(enemy, player):
-                    player.health -= 10
-                    enemies.remove(enemy)
-                    ge[players.index(player)].fitness -= 2
+                if enemy in enemies:
+                    if collide(enemy, player):
+                        player.health -= 10
+                        enemies.remove(enemy)
+                        ge[players.index(player)].fitness -= 2
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
 
-        for x in range(len(enemies)):
-             if enemies[x].y + enemies[x].get_height() > HEIGHT:
+        for x, enemy in enumerate(enemies):
+             if enemy.y + enemy.get_height() > HEIGHT:
                  lives -= 1
                  enemies.pop(x)
                  for g in ge:
