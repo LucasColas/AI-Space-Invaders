@@ -71,8 +71,6 @@ class Ship:
         for laser in self.lasers:
             laser.draw(window)
 
-
-
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
             self.cool_down_counter = 0
