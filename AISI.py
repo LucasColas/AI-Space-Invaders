@@ -247,7 +247,6 @@ def main(genomes, config):
     enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
     while run and len(players) > 0:
         clock.tick(FPS)
-        redraw_window(gen, players,enemies)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -309,11 +308,17 @@ def main(genomes, config):
                  for g in ge:
                      g.fitness -= 10
 
+        if lives <= 0:
+            players.clear()
+            print("Pop deleted")
+
+
         if target:
             increase_fitness = 10
             for g in ge:
                 g.fitness += increase_fitness
                 target = False
+        redraw_window(gen, players,enemies) 
 
 def run(config_path):
     max_gen = 150
