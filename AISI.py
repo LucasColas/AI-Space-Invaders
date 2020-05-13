@@ -282,7 +282,7 @@ def main(genomes, config):
             if outputs[2] > 0:
                 player.shoot()
 
-        player.move_lasers(laser_vel, enemies)
+        player.move_lasers(-laser_vel, enemies)
 
         for enemy in enemies:
             enemy.move(enemy_vel)
