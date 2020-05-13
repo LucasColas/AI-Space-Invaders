@@ -314,9 +314,6 @@ def main(genomes, config):
                 g.fitness += increase_fitness
                 target = False
 
-
-
-
 def run(config_path):
     max_gen = 150
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet,
