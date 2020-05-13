@@ -239,7 +239,6 @@ def main(genomes, config):
             player.draw(WIN)
             #break
 
-
         pygame.display.update()
 
     enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
