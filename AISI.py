@@ -9,7 +9,7 @@ pygame.font.init()
 
 WIDTH, HEIGHT = 1280, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Space Invaders")
+pygame.display.set_caption("AI Space Invaders")
 
 gen = 0
 
