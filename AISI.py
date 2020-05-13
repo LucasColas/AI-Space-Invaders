@@ -182,7 +182,6 @@ def main(genomes, config):
     global gen
     global target
 
-
     run = True
     FPS = 800
     level = 0
@@ -197,7 +196,6 @@ def main(genomes, config):
     player_vel = 3
     laser_vel = 5
     player = Player(WIDTH/2, HEIGHT/(5/3))
-
 
     gen += 1
     nets = []
@@ -310,7 +308,6 @@ def main(genomes, config):
         if lives <= 0:
             players.clear()
             print("Pop deleted")
-
 
         if target:
             increase_fitness = 10
