@@ -232,7 +232,7 @@ def main(genomes, config):
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
-        WIN.blit(alive_label, (WIDTH - alive_label.get_width() - 10, 50))
+        #WIN.blit(alive_label, (WIDTH - alive_label.get_width() - 10, 50))
 
         for enemy in enemies:
             enemy.draw(WIN)
@@ -318,7 +318,7 @@ def main(genomes, config):
             for g in ge:
                 g.fitness += increase_fitness
                 target = False
-        redraw_window(gen, players,enemies) 
+        redraw_window(gen, players,enemies)
 
 def run(config_path):
     max_gen = 150
