@@ -72,17 +72,6 @@ class Ship:
         for laser in self.lasers:
             laser.draw(window)
 
-    def move_lasers(self, vel, obj):
-        self.cooldown()
-        for laser in self.lasers:
-            laser.move(vel)
-            if laser.off_screen(HEIGHT):
-                self.lasers.remove(laser)
-            elif laser.collision(obj):
-                obj.health -= 10
-                self.lasers.remove(laser)
-
-
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
             self.cool_down_counter = 0
@@ -113,7 +102,7 @@ class Player(Ship):
     def move_lasers(self, vel, objs):
         self.cooldown()
         for laser in self.lasers:
-            laser.move(vel)
+            laser.move(- vel)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             else:
