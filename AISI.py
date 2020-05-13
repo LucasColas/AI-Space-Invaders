@@ -239,6 +239,8 @@ def main(genomes, config):
 
         for player in players:
             player.draw(WIN)
+            #break
+
 
         pygame.display.update()
 
@@ -288,7 +290,7 @@ def main(genomes, config):
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
-            if random.randrange(0, 2*60) == 1:
+            if random.randrange(0, 2*20) == 1:
                 enemy.shoot()
             for player in players:
                 if enemy in enemies:
@@ -301,7 +303,7 @@ def main(genomes, config):
                     players.pop(players.index(player))
 
         for x, enemy in enumerate(enemies):
-             if enemy.y + enemy.get_height() > HEIGHT:
+             if enemy.y > HEIGHT:
                  lives -= 1
                  enemies.pop(x)
                  for g in ge:
