@@ -272,7 +272,7 @@ def main(genomes, config):
             if outputs[1] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
-            if outputs[2] > 0.5:
+            if outputs[2] > 0.9:
                 player.shoot()
 
         player.move_lasers(-laser_vel, enemies)
