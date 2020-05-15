@@ -271,8 +271,14 @@ def main(genomes, config):
             if outputs[2] > 0.2:
                 player.shoot()
 
-
             player.move_lasers(laser_vel, enemies)
+
+            if player.target:
+                increase_fitness = 30
+                print("Target")
+                for g in ge:
+                    g.fitness += increase_fitness
+                player.target = False
 
 
         for event in pygame.event.get():
@@ -297,6 +303,8 @@ def main(genomes, config):
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
 
+
+
         for x, enemy in enumerate(enemies):
              if enemy.y > HEIGHT:
                  lives -= 1
@@ -308,11 +316,6 @@ def main(genomes, config):
             players.clear()
             print("Pop deleted")
 
-        if target:
-            increase_fitness = 30
-            print("Target")
-            for g in ge:
-                g.fitness += increase_fitness
         redraw_window(gen, players,enemies)
 
 
