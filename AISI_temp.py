@@ -31,7 +31,7 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
 
-target = False
+
 lasers = []
 
 class Laser:
@@ -98,6 +98,7 @@ class Player(Ship):
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
+        self.target = False
 
     def move_lasers(self, vel, objs):
         self.cooldown()
@@ -111,7 +112,7 @@ class Player(Ship):
                         objs.remove(obj)
                         if laser in self.lasers:
                             self.lasers.remove(laser)
-                            target = True
+                            self.target = True
 
     def draw(self, window):
         super().draw(window)
@@ -308,7 +309,7 @@ def main(genomes, config):
             print("Pop deleted")
 
         if target:
-            increase_fitness = 10
+            increase_fitness = 30
             print("Target")
             for g in ge:
                 g.fitness += increase_fitness
