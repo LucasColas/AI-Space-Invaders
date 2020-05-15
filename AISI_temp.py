@@ -309,6 +309,7 @@ def main(genomes, config):
 
         if target:
             increase_fitness = 10
+            print("Target")
             for g in ge:
                 g.fitness += increase_fitness
         redraw_window(gen, players,enemies)
