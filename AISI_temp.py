@@ -238,7 +238,7 @@ def main(genomes, config):
             player.draw(WIN)
 
         pygame.display.update()
-        
+
     enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     while run and len(players) > 0:
         enemies_pos = []
@@ -303,6 +303,10 @@ def main(genomes, config):
                  enemies.pop(x)
                  for g in ge:
                      g.fitness -= 10
+
+        if lives <= 0:
+            players.clear()
+            print("Pop deleted")
 
         if target:
             increase_fitness = 10
