@@ -54,7 +54,6 @@ class Laser:
         return collide(self, obj)
 
 
-
 class Ship:
     COOLDOWN = 10
 
@@ -298,7 +297,7 @@ def main(genomes, config):
                     players.pop(players.index(player))
 
         for x, enemy in enumerate(enemies):
-             if enemy.y + enemy.get_height() > HEIGHT:
+             if enemy.y > HEIGHT:
                  lives -= 1
                  enemies.pop(x)
                  for g in ge:
