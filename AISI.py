@@ -246,7 +246,7 @@ def main(genomes, config):
 
         if len(enemies) <= 1:
             level += 1
-            wave_length = 5
+            wave_length = 4
 
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
