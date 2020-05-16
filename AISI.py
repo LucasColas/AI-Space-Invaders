@@ -9,7 +9,7 @@ pygame.font.init()
 
 WIDTH, HEIGHT = 1280, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("AI Space Invaders")
+pygame.display.set_caption("Space Invaders")
 
 gen = 0
 
@@ -31,7 +31,7 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
 
-target = False
+
 lasers = []
 
 class Laser:
@@ -48,7 +48,7 @@ class Laser:
         self.y += vel
 
     def off_screen(self, height):
-        return not(self.y <= height and self.y >= -10)
+        return not(self.y <= height and self.y >= -70)
 
     def collision(self, obj):
         return collide(self, obj)
@@ -57,11 +57,11 @@ class Laser:
 class Ship:
     COOLDOWN = 10
 
-    def __init__(self, x, y, health=100):
+    def __init__(self, x, y, lasers, health=100):
         self.x = x
         self.y = y
         self.health = health
-        self.lasers = []
+        self.lasers = lasers.copy()
         self.ship_img = None
         self.laser_img = None
         self.cool_down_counter = 0
@@ -70,6 +70,7 @@ class Ship:
         window.blit(self.ship_img, (self.x, self.y))
         for laser in self.lasers:
             laser.draw(window)
+
 
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
@@ -91,17 +92,18 @@ class Ship:
 
 
 class Player(Ship):
-    def __init__(self, x, y, health=100):
-        super().__init__(x, y, health)
+    def __init__(self, x, y, lasers, health=100):
+        super().__init__(x, y, lasers, health)
         self.ship_img = YELLOW_SPACE_SHIP
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
+        self.target = False
 
     def move_lasers(self, vel, objs):
         self.cooldown()
         for laser in self.lasers:
-            laser.move(vel)
+            laser.move(- vel)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             else:
@@ -110,7 +112,7 @@ class Player(Ship):
                         objs.remove(obj)
                         if laser in self.lasers:
                             self.lasers.remove(laser)
-                            target = True
+                            self.target = True
 
     def draw(self, window):
         super().draw(window)
@@ -128,8 +130,8 @@ class Enemy(Ship):
                 "blue": (BLUE_SPACE_SHIP, BLUE_LASER)
                 }
 
-    def __init__(self, x, y, color, health=100):
-        super().__init__(x, y, health)
+    def __init__(self, x, y, color, lasers, health=100):
+        super().__init__(x, y, lasers, health)
         self.ship_img, self.laser_img = self.COLOR_MAP[color]
         self.mask = pygame.mask.from_surface(self.ship_img)
 
@@ -177,24 +179,23 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (round(offset_x), round(offset_y))) != None
 
 def main(genomes, config):
-    global gen
-    global target
-
     run = True
-    FPS = 800
+    FPS = 500
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
     neat_font = pygame.font.SysFont("comicsans", 40)
 
+
     wave_length = 5
     enemy_vel = 4
 
     player_vel = 3
     laser_vel = 5
-    player = Player(WIDTH/2, HEIGHT/(5/3))
+    player = Player(WIDTH/2, HEIGHT/(5/3), lasers)
 
+    global gen
     gen += 1
     nets = []
     ge = []
@@ -204,7 +205,7 @@ def main(genomes, config):
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(net)
-        players.append(player)
+        players.append(Player(WIDTH/2, HEIGHT/(5/3), lasers))
         g.fitness = 0
         ge.append(g)
 
@@ -212,6 +213,7 @@ def main(genomes, config):
     clock = pygame.time.Clock()
 
     def redraw_window(gen, players,enemies):
+        WIN.fill((0,0,0))
         WIN.blit(BG, (0,0))
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
@@ -228,34 +230,28 @@ def main(genomes, config):
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
-        #WIN.blit(alive_label, (WIDTH - alive_label.get_width() - 10, 50))
+        WIN.blit(alive_label, (WIDTH - level_label.get_width() - 10, 50))
 
         for enemy in enemies:
             enemy.draw(WIN)
 
         for player in players:
             player.draw(WIN)
-            #break
 
         pygame.display.update()
 
-    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))]
+    enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     while run and len(players) > 0:
-        clock.tick(FPS)
+        enemies_pos = []
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
-                quit()
+        clock.tick(FPS)
 
         if len(enemies) <= 1:
             level += 1
             wave_length = 5
 
             for i in range(wave_length):
-                enemy = Enemy(random.randrange(50, WIDTH-100),
-                random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
+                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)
                 enemies.append(enemy)
 
             for g in ge:
@@ -263,8 +259,9 @@ def main(genomes, config):
 
         for x, player in enumerate(players):
 
-            outputs = nets[x].activate(get(enemies, lasers, player_vel))
+            outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
+
 
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
@@ -272,28 +269,42 @@ def main(genomes, config):
             if outputs[1] > 0.5 and player.x - player_vel > 0:
                 player.x -= player_vel
 
-            if outputs[2] > 0.9:
+            if outputs[2] > 0.2:
                 player.shoot()
 
-        player.move_lasers(-laser_vel, enemies)
+            player.move_lasers(laser_vel, enemies)
+
+            if player.target:
+                increase_fitness = 30
+                print("Target")
+                for g in ge:
+                    g.fitness += increase_fitness
+                player.target = False
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+                quit()
 
         for enemy in enemies:
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
-            if random.randrange(0, 2*20) == 1:
+            if random.randrange(0, 2*60) == 1:
                 enemy.shoot()
             for player in players:
                 if enemy in enemies:
                     if collide(enemy, player):
                         player.health -= 10
                         enemies.remove(enemy)
-                        ge[players.index(player)].fitness -= 12
+                        ge[players.index(player)].fitness -= 2
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
-                    for g in ge:
-                        g.fitness -= 2
+
+
 
         for x, enemy in enumerate(enemies):
              if enemy.y > HEIGHT:
@@ -306,12 +317,8 @@ def main(genomes, config):
             players.clear()
             print("Pop deleted")
 
-        if target:
-            increase_fitness = 10
-            for g in ge:
-                g.fitness += increase_fitness
-                target = False
         redraw_window(gen, players,enemies)
+
 
 def run(config_path):
     max_gen = 150
