@@ -181,7 +181,7 @@ def collide(obj1, obj2):
 def main(genomes, config):
     run = True
     FPS = 500
-    level = 1
+    level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 60)
