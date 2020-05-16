@@ -253,7 +253,7 @@ def main(genomes, config):
                 enemies.append(enemy)
 
             for g in ge:
-                g.fitness += 30
+                g.fitness += 30 # When there is a new generation of enemies, we give to each player a fitness of 30
 
         for x, player in enumerate(players):
             ge[x].fitness += 0.1 #Each fram they stay alive, fitness function increases of 0.1
