@@ -273,7 +273,7 @@ def main(genomes, config):
             player.move_lasers(laser_vel, enemies)
 
             if player.target:
-                increase_fitness = 20
+                increase_fitness = 50
                 print("Target")
                 for g in ge:
                     g.fitness += increase_fitness
