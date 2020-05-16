@@ -180,7 +180,7 @@ def collide(obj1, obj2):
 
 def main(genomes, config):
     run = True
-    FPS = 500
+    FPS = 1000
     level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
@@ -279,6 +279,11 @@ def main(genomes, config):
                     g.fitness += increase_fitness
                 player.target = False
 
+            if not player.target:
+                decrease_fitness = 1
+                for g in ge:
+                    g.fitness -= decrease_fitness
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -309,13 +314,13 @@ def main(genomes, config):
                  lives -= 1
                  enemies.pop(x)
                  for g in ge:
-                     g.fitness -= 20
+                     g.fitness -= 100
 
         if lives <= 0:
             players.clear()
             print("Pop deleted")
             for g in ge:
-                g.fitness -= 200
+                g.fitness -= 500
 
         redraw_window(gen, players,enemies)
 
