@@ -256,7 +256,7 @@ def main(genomes, config):
                 g.fitness += 30
 
         for x, player in enumerate(players):
-            ge[x].fitness += 0.1
+            ge[x].fitness += 0.1 #Each fram they stay alive, fitness function increases of 0.1
 
             outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
