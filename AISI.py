@@ -242,8 +242,6 @@ def main(genomes, config):
 
     enemies = [Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]), lasers)]
     while run and len(players) > 0:
-        enemies_pos = []
-
         clock.tick(FPS)
 
         if len(enemies) <= 1:
