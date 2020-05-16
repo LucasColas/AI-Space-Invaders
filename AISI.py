@@ -314,6 +314,8 @@ def main(genomes, config):
         if lives <= 0:
             players.clear()
             print("Pop deleted")
+            for g in ge:
+                g.fitness -= 200
 
         redraw_window(gen, players,enemies)
 
