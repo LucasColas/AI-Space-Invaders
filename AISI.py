@@ -205,7 +205,7 @@ def main(genomes, config):
     for _,g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(net)
-        players.append(Player(WIDTH/2, HEIGHT/(5/3), lasers))
+        players.append(Player(WIDTH/2, HEIGHT/(11/10), lasers))
         g.fitness = 0
         ge.append(g)
 
