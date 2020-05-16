@@ -213,6 +213,7 @@ def main(genomes, config):
     clock = pygame.time.Clock()
 
     def redraw_window(gen, players,enemies):
+        WIN.fill((0,0,0))
         WIN.blit(BG, (0,0))
         # draw text
         lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
