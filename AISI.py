@@ -253,9 +253,10 @@ def main(genomes, config):
                 enemies.append(enemy)
 
             for g in ge:
-                g.fitness += 10
+                g.fitness += 30
 
         for x, player in enumerate(players):
+            ge[x].fitness += 0.1
 
             outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
@@ -296,7 +297,7 @@ def main(genomes, config):
                     if collide(enemy, player):
                         player.health -= 10
                         enemies.remove(enemy)
-                        ge[players.index(player)].fitness -= 2
+                        ge[players.index(player)].fitness -= 12
                 if player.health <= 0:
                     ge[players.index(player)].fitness -= 20
                     players.pop(players.index(player))
@@ -308,7 +309,7 @@ def main(genomes, config):
                  lives -= 1
                  enemies.pop(x)
                  for g in ge:
-                     g.fitness -= 10
+                     g.fitness -= 20
 
         if lives <= 0:
             players.clear()
