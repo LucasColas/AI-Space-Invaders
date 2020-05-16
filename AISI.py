@@ -262,7 +262,6 @@ def main(genomes, config):
             outputs = nets[x].activate(get(enemies,lasers, player_vel))
             #print(outputs)
 
-
             if outputs[0] > 0.5 and player.x + player_vel + player.get_width() < WIDTH:
                 player.x += player_vel
 
