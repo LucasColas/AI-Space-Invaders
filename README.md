@@ -20,4 +20,4 @@ Pygame
 Neat
 ```
 
-Assets and game from Tech With Tim
+Assets and original game from Tech With Tim : https://github.com/techwithtim
